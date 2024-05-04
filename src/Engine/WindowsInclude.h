@@ -23,29 +23,33 @@
 //#	define NOCLIPBOARD
 //#	define NOCOLOR
 //#	define NOCTLMGR
-//#	define NODRAWTEXT
-//#	define NOGDI
+#	define NOBITMAP
+#	define NODRAWTEXT
+#	define NOGDI
 //#	define NOMB
 //#	define NOMEMMGR
 //#	define NOMETAFILE
-//#	define NOMINMAX
+#	define NOMINMAX
 //#	define NOOPENFILE
 //#	define NOSCROLL
-//#	define NOSERVICE
+#	define NOSERVICE
 //#	define NOSOUND
 //#	define NOTEXTMETRIC
 //#	define NOWH
 //#	define NOWINOFFSETS
 //#	define NOCOMM
 //#	define NOKANJI
-//#	define NOHELP
+#	define NOHELP
 //#	define NOPROFILER
 //#	define NODEFERWINDOWPOS
-//#	define NOMCX
+#	define NOMCX
 //#	define NOUSER
 //#	define NONLS
 //#	define NOMSG
-
+#	include <winsdkver.h>
+#	ifndef _WIN32_WINNT
+#		define _WIN32_WINNT 0x0A00
+#	endif
 #	include <SDKDDKVer.h>
 #	include <windows.h>
 

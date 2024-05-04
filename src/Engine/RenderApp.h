@@ -4,5 +4,8 @@
 
 class RenderApp : public BaseApp
 {
-
+public:
+protected:
+	RenderApp() = default;
+	virtual ~RenderApp() = default;
 };
