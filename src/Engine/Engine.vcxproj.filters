@@ -26,6 +26,9 @@
     <ClInclude Include="EngineApp.h">
       <Filter>App</Filter>
     </ClInclude>
+    <ClInclude Include="WindowsInclude.h">
+      <Filter>Core</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Core">

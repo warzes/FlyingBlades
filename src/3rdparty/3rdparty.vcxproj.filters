@@ -45,6 +45,7 @@
     <ClInclude Include="tiny_obj_loader.h">
       <Filter>tiny_obj_loader</Filter>
     </ClInclude>
+    <ClInclude Include="d3dx12.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="stb\stb.cpp">

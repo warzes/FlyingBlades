@@ -15,6 +15,7 @@
     <ClCompile Include="tiny_obj_loader.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="d3dx12.h" />
     <ClInclude Include="stb\stb_connected_components.h" />
     <ClInclude Include="stb\stb_herringbone_wang_tile.h" />
     <ClInclude Include="stb\stb_image.h" />

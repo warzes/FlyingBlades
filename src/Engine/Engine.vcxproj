@@ -107,6 +107,7 @@
     <ClInclude Include="EngineApp.h" />
     <ClInclude Include="RenderApp.h" />
     <ClInclude Include="stdafx.h" />
+    <ClInclude Include="WindowsInclude.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
