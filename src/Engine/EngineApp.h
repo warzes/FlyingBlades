@@ -5,6 +5,7 @@
 struct EngineCreateInfo final
 {
 	WindowSystemCreateInfo window;
+	RenderSystemCreateInfo render;
 };
 
 class EngineApp : public RenderApp

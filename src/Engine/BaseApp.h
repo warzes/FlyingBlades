@@ -20,6 +20,7 @@ public:
 
 	// Log system
 	void PrintLog(const std::string& message);
+	void PrintLog(const std::wstring& message);
 	void Warning(const std::string& message);
 	void Error(const std::string& message);
 	void Fatal(const std::string& message);
@@ -37,6 +38,8 @@ public:
 	HWND GetHWND() const;
 	HINSTANCE GetHINSTANCE() const;
 
+	virtual void OnWindowSizeChanged() = 0;
+
 	// Main Loop
 	void Exit();
 	bool IsEnd() const;
@@ -47,6 +50,7 @@ protected:
 	bool initBaseApp(const WindowSystemCreateInfo& createInfo);
 	void closeBaseApp();
 	bool peekMessage();
+	void sizeChanged(uint32_t width, uint32_t height);
 
 private:
 	BaseAppPrivate* m_baseAppPrivate = nullptr;

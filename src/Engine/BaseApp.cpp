@@ -10,6 +10,11 @@ class BaseAppPrivate final
 public:
 	BaseAppPrivate(BaseApp* app) : m_app(app) { }
 
+	void OnWindowSizeChanged(uint32_t width, uint32_t height) 
+	{
+		m_app->sizeChanged(width, height);
+	}
+
 private:
 	BaseApp* m_app;
 };
@@ -122,27 +127,27 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 		//pPlatformApp->handleMouseMove(LOWORD(lParam), HIWORD(lParam));
 		break;
 	case WM_SIZE:
-		//if (wParam == SIZE_MINIMIZED)
-		//{
-		//	if (!s_minimized)
-		//	{
-		//		s_minimized = true;
+		if (wParam == SIZE_MINIMIZED)
+		{
+			if (!s_minimized)
+			{
+				s_minimized = true;
 		//		if (!s_in_suspend && app)
 		//			app->OnSuspending();
-		//		s_in_suspend = true;
-		//	}
-		//}
-		//else if (s_minimized)
-		//{
-		//	s_minimized = false;
+				s_in_suspend = true;
+			}
+		}
+		else if (s_minimized)
+		{
+			s_minimized = false;
 		//	if (s_in_suspend && app)
 		//		app->OnResuming();
-		//	s_in_suspend = false;
-		//}
-		//else if (!s_in_sizemove && app)
-		//{
-		//	app->OnWindowSizeChanged(LOWORD(lParam), HIWORD(lParam));
-		//}
+			s_in_suspend = false;
+		}
+		else if (!s_in_sizemove && app)
+		{
+			app->OnWindowSizeChanged(LOWORD(lParam), HIWORD(lParam));
+		}
 		break;
 	case WM_GETMINMAXINFO:
 	{
@@ -160,7 +165,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 		{
 			RECT rc;
 			GetClientRect(hwnd, &rc);
-			//app->OnWindowSizeChanged(rc.right - rc.left, rc.bottom - rc.top);
+			app->OnWindowSizeChanged(rc.right - rc.left, rc.bottom - rc.top);
 		}
 		break;
 	case WM_ACTIVATEAPP:
@@ -205,6 +210,11 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 void BaseApp::PrintLog(const std::string& message)
 {
 	puts(message.c_str());
+}
+//-----------------------------------------------------------------------------
+void BaseApp::PrintLog(const std::wstring& message)
+{
+	_putws(message.c_str());
 }
 //-----------------------------------------------------------------------------
 void BaseApp::Warning(const std::string& message)
@@ -374,5 +384,12 @@ bool BaseApp::peekMessage()
 		return false;
 
 	return true;
+}
+//-----------------------------------------------------------------------------
+void BaseApp::sizeChanged(uint32_t width, uint32_t height)
+{
+	m_frameWidth = width;
+	m_frameHeight = height; // TODO: а размеры тут учитывают размер рамок окна?
+	OnWindowSizeChanged();
 }
 //-----------------------------------------------------------------------------

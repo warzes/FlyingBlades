@@ -41,3 +41,4 @@
 #endif
 
 #include "Engine/EngineApp.h"
+#include "Engine/RenderUtils.h"

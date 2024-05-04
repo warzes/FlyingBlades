@@ -11,6 +11,9 @@
     <ClCompile Include="EngineApp.cpp">
       <Filter>App</Filter>
     </ClCompile>
+    <ClCompile Include="RenderUtils.cpp">
+      <Filter>Render</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -28,6 +31,9 @@
     </ClInclude>
     <ClInclude Include="WindowsInclude.h">
       <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="RenderUtils.h">
+      <Filter>Render</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

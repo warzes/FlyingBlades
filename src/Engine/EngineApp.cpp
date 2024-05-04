@@ -31,6 +31,9 @@ bool EngineApp::create()
 	if (!initBaseApp(createInfo.window))
 		return false;
 
+	if (!initRenderApp(createInfo.render))
+		return false;
+
 	return true;
 }
 //-----------------------------------------------------------------------------
@@ -43,6 +46,7 @@ void EngineApp::tick()
 //-----------------------------------------------------------------------------
 void EngineApp::destroy()
 {
+	closeRenderApp();
 	closeBaseApp();
 }
 //-----------------------------------------------------------------------------
