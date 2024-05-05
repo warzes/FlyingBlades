@@ -43,7 +43,11 @@ void RenderApp::OnWindowSizeChanged()
 	m_depthStencilBuffer.Reset();
 
 	// Resize the swap chain.
-	ThrowIfFailed(m_swapChain->ResizeBuffers(SwapChainBufferCount, GetFrameWidth(), GetFrameHeight(), m_backBufferFormat, DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH));
+	ThrowIfFailed(m_swapChain->ResizeBuffers(
+		SwapChainBufferCount,
+		GetFrameWidth(), GetFrameHeight(),
+		m_backBufferFormat,
+		DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH));
 
 	m_currBackBuffer = 0;
 
@@ -80,15 +84,17 @@ void RenderApp::OnWindowSizeChanged()
 	optClear.Format = m_depthStencilFormat;
 	optClear.DepthStencil.Depth = 1.0f;
 	optClear.DepthStencil.Stencil = 0;
+	{
+		auto v = CD3DX12_HEAP_PROPERTIES(D3D12_HEAP_TYPE_DEFAULT);
+		ThrowIfFailed(m_d3dDevice->CreateCommittedResource(
+			&v,
+			D3D12_HEAP_FLAG_NONE,
+			&depthStencilDesc,
+			D3D12_RESOURCE_STATE_COMMON,
+			&optClear,
+			IID_PPV_ARGS(m_depthStencilBuffer.GetAddressOf())));
+	}
 
-	CD3DX12_HEAP_PROPERTIES heapProp(D3D12_HEAP_TYPE_DEFAULT);
-	ThrowIfFailed(m_d3dDevice->CreateCommittedResource(
-		&heapProp,
-		D3D12_HEAP_FLAG_NONE,
-		&depthStencilDesc,
-		D3D12_RESOURCE_STATE_COMMON,
-		&optClear,
-		IID_PPV_ARGS(m_depthStencilBuffer.GetAddressOf())));
 
 	// Create descriptor to mip level 0 of entire resource using the format of the resource.
 	D3D12_DEPTH_STENCIL_VIEW_DESC dsvDesc;
@@ -99,9 +105,10 @@ void RenderApp::OnWindowSizeChanged()
 	m_d3dDevice->CreateDepthStencilView(m_depthStencilBuffer.Get(), &dsvDesc, depthStencilView());
 
 	// Transition the resource from its initial state to be used as a depth buffer.
-	CD3DX12_RESOURCE_BARRIER resBarrier = CD3DX12_RESOURCE_BARRIER::Transition(m_depthStencilBuffer.Get(),
-		D3D12_RESOURCE_STATE_COMMON, D3D12_RESOURCE_STATE_DEPTH_WRITE);
-	m_commandList->ResourceBarrier(1, &resBarrier);
+	{
+		auto v = CD3DX12_RESOURCE_BARRIER::Transition(m_depthStencilBuffer.Get(), D3D12_RESOURCE_STATE_COMMON, D3D12_RESOURCE_STATE_DEPTH_WRITE);
+		m_commandList->ResourceBarrier(1, &v);
+	}
 
 	// Execute the resize commands.
 	ThrowIfFailed(m_commandList->Close());

@@ -20,6 +20,12 @@
     <ClCompile Include="MathHelper.cpp">
       <Filter>Core</Filter>
     </ClCompile>
+    <ClCompile Include="FrameResource.cpp">
+      <Filter>Render</Filter>
+    </ClCompile>
+    <ClCompile Include="GeometryGenerator.cpp">
+      <Filter>Render</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -49,6 +55,12 @@
     </ClInclude>
     <ClInclude Include="MathHelper.h">
       <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameResource.h">
+      <Filter>Render</Filter>
+    </ClInclude>
+    <ClInclude Include="GeometryGenerator.h">
+      <Filter>Render</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
