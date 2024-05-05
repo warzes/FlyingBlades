@@ -12,3 +12,7 @@ Thumbs.db
 
 /bin/Game_Debug.*
 /bin/Game_Release.*
+/bin/001Box_Debug.*
+/bin/001Box_Release.*
+/bin/002Shapes_Debug.*
+/bin/002Shapes_Release.*

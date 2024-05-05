@@ -316,6 +316,11 @@ void BaseApp::Fatal(const std::string& message)
 	Exit();
 }
 //-----------------------------------------------------------------------------
+GameTimer& BaseApp::GetTimer()
+{
+	return m_timer;
+}
+//-----------------------------------------------------------------------------
 uint32_t BaseApp::GetFrameWidth() const
 {
 	return m_frameWidth;

@@ -18,6 +18,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "DOC", "DOC", "{59ACAFA0-9DF
 		REF.MD = REF.MD
 	EndProjectSection
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Lesson", "Lesson", "{E3E918B8-360E-4FB2-B569-DB84C6C79B15}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "001Box", "001Box\001Box.vcxproj", "{F36A759E-F364-47FC-839D-B42C67562A98}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "002Shapes", "002Shapes\002Shapes.vcxproj", "{020A540B-8300-40FE-84E1-3E5EA92AB294}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -36,9 +42,21 @@ Global
 		{9214BAEA-73B9-4C43-8198-5294124A4372}.Debug|x64.Build.0 = Debug|x64
 		{9214BAEA-73B9-4C43-8198-5294124A4372}.Release|x64.ActiveCfg = Release|x64
 		{9214BAEA-73B9-4C43-8198-5294124A4372}.Release|x64.Build.0 = Release|x64
+		{F36A759E-F364-47FC-839D-B42C67562A98}.Debug|x64.ActiveCfg = Debug|x64
+		{F36A759E-F364-47FC-839D-B42C67562A98}.Debug|x64.Build.0 = Debug|x64
+		{F36A759E-F364-47FC-839D-B42C67562A98}.Release|x64.ActiveCfg = Release|x64
+		{F36A759E-F364-47FC-839D-B42C67562A98}.Release|x64.Build.0 = Release|x64
+		{020A540B-8300-40FE-84E1-3E5EA92AB294}.Debug|x64.ActiveCfg = Debug|x64
+		{020A540B-8300-40FE-84E1-3E5EA92AB294}.Debug|x64.Build.0 = Debug|x64
+		{020A540B-8300-40FE-84E1-3E5EA92AB294}.Release|x64.ActiveCfg = Release|x64
+		{020A540B-8300-40FE-84E1-3E5EA92AB294}.Release|x64.Build.0 = Release|x64
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{F36A759E-F364-47FC-839D-B42C67562A98} = {E3E918B8-360E-4FB2-B569-DB84C6C79B15}
+		{020A540B-8300-40FE-84E1-3E5EA92AB294} = {E3E918B8-360E-4FB2-B569-DB84C6C79B15}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {6B382300-9525-4423-9DD7-40591B478D9F}

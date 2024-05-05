@@ -29,6 +29,7 @@ public:
 	void Fatal(const std::string& message);
 
 	// Time system
+	GameTimer& GetTimer();
 
 	// Event system
 	virtual void OnMouseDown(WPARAM btnState, int x, int y) { }
