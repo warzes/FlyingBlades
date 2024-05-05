@@ -8,7 +8,7 @@
 //-----------------------------------------------------------------------------
 void RenderApp::CreateRtvAndDsvDescriptorHeaps()
 {
-	D3D12_DESCRIPTOR_HEAP_DESC rtvHeapDesc;
+	D3D12_DESCRIPTOR_HEAP_DESC rtvHeapDesc{};
 	rtvHeapDesc.NumDescriptors = SwapChainBufferCount;
 	rtvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_RTV;
 	rtvHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_NONE;
@@ -16,7 +16,7 @@ void RenderApp::CreateRtvAndDsvDescriptorHeaps()
 	ThrowIfFailed(m_d3dDevice->CreateDescriptorHeap(&rtvHeapDesc, IID_PPV_ARGS(m_rtvHeap.GetAddressOf())));
 
 
-	D3D12_DESCRIPTOR_HEAP_DESC dsvHeapDesc;
+	D3D12_DESCRIPTOR_HEAP_DESC dsvHeapDesc{};
 	dsvHeapDesc.NumDescriptors = 1;
 	dsvHeapDesc.Type = D3D12_DESCRIPTOR_HEAP_TYPE_DSV;
 	dsvHeapDesc.Flags = D3D12_DESCRIPTOR_HEAP_FLAG_NONE;
@@ -312,9 +312,7 @@ void RenderApp::flushCommandQueue()
 	// Advance the fence value to mark commands up to this fence point.
 	m_currentFence++;
 
-	// Add an instruction to the command queue to set a new fence point.  Because we 
-	// are on the GPU timeline, the new fence point won't be set until the GPU finishes
-	// processing all the commands prior to this Signal().
+	// Add an instruction to the command queue to set a new fence point.  Because we are on the GPU timeline, the new fence point won't be set until the GPU finishes processing all the commands prior to this Signal().
 	ThrowIfFailed(m_commandQueue->Signal(m_fence.Get(), m_currentFence));
 
 	// Wait until the GPU has completed commands up to this fence point.

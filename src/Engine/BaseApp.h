@@ -1,11 +1,14 @@
 ﻿#pragma once
 
+#include "GameTimer.h"
+
 struct WindowSystemCreateInfo final
 {
 	int width = 1024;
 	int height = 768;
 	const wchar_t* title = L"Game";
 	bool fullscreen = false;
+	bool resize = true;
 };
 
 class BaseAppPrivate;
@@ -50,15 +53,27 @@ protected:
 	bool initBaseApp(const WindowSystemCreateInfo& createInfo);
 	void closeBaseApp();
 	bool peekMessage();
-	void sizeChanged(uint32_t width, uint32_t height);
 
 private:
+	void sizeChanged(uint32_t width, uint32_t height);
+	void calculateFrameStats();
+
 	BaseAppPrivate* m_baseAppPrivate = nullptr;
+
 	HINSTANCE m_hInstance = nullptr;
 	HWND m_hwnd = nullptr;
 	MSG m_msg{};
+
+	GameTimer m_timer;
+
 	uint32_t m_frameWidth = 0;
 	uint32_t m_frameHeight = 0;
+	std::wstring m_title;
+
 	bool m_isFullscreen = false;
 	bool m_isExit = false;
+	bool m_paused = false; // is the application paused?
+	bool m_minimized = false; // is the application minimized?
+	bool m_maximized = false; // is the application maximized?
+	bool m_resizing = false; // are the resize bars being dragged?
 };

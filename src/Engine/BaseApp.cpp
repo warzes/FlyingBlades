@@ -15,6 +15,12 @@ public:
 		m_app->sizeChanged(width, height);
 	}
 
+	bool& AppPaused() { return m_app->m_paused; }
+	GameTimer& Timer() { return m_app->m_timer; }
+	bool& Minimized() { return m_app->m_minimized; }
+	bool& Maximized() { return m_app->m_maximized; }
+	bool& Resizing() { return m_app->m_resizing; }
+
 private:
 	BaseApp* m_app;
 };
@@ -88,8 +94,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 		break;
 
 	case WM_MENUCHAR:
-		// A menu is active and the user presses a key that does not correspond
-		// to any mnemonic or accelerator key. Ignore so we don't produce an error beep.
+		// A menu is active and the user presses a key that does not correspond to any mnemonic or accelerator key. Ignore so we don't produce an error beep.
 		return MAKELRESULT(0, MNC_CLOSE);
 	case WM_KEYDOWN:
 		//pPlatformApp->OnKeyPressed((uint32_t)wParam);
@@ -129,6 +134,12 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 	case WM_SIZE:
 		if (wParam == SIZE_MINIMIZED)
 		{
+			if (app)
+			{
+				app->AppPaused() = true;
+				app->Minimized() = true;
+				app->Maximized() = false;
+			}
 			if (!s_minimized)
 			{
 				s_minimized = true;
@@ -137,16 +148,61 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 				s_in_suspend = true;
 			}
 		}
-		else if (s_minimized)
+		else if (wParam == SIZE_MAXIMIZED)
 		{
-			s_minimized = false;
-		//	if (s_in_suspend && app)
-		//		app->OnResuming();
-			s_in_suspend = false;
+			if (app)
+			{
+				app->AppPaused() = false;
+				app->Minimized() = false;
+				app->Maximized() = true;
+				RECT rc;
+				GetClientRect(hwnd, &rc);
+				app->OnWindowSizeChanged(rc.right - rc.left, rc.bottom - rc.top);
+			}
+			if (s_minimized)
+			{
+				s_minimized = false;
+				//	if (s_in_suspend && app)
+				//		app->OnResuming();
+				s_in_suspend = false;
+			}
 		}
-		else if (!s_in_sizemove && app)
+		else if (wParam == SIZE_RESTORED)
 		{
-			app->OnWindowSizeChanged(LOWORD(lParam), HIWORD(lParam));
+			if (app)
+			{
+				// Restoring from minimized state?
+				if (app->Minimized())
+				{
+					app->AppPaused() = false;
+					app->Minimized() = false;
+					RECT rc;
+					GetClientRect(hwnd, &rc);
+					app->OnWindowSizeChanged(rc.right - rc.left, rc.bottom - rc.top);
+				}
+				// Restoring from maximized state?
+				else if (app->Maximized())
+				{
+					app->AppPaused() = false;
+					app->Maximized() = false;
+					RECT rc;
+					GetClientRect(hwnd, &rc);
+					app->OnWindowSizeChanged(rc.right - rc.left, rc.bottom - rc.top);
+				}
+			}
+			if (s_minimized)
+			{
+				s_minimized = false;
+				//	if (s_in_suspend && app)
+				//		app->OnResuming();
+				s_in_suspend = false;
+			}
+		}
+		else if (!s_in_sizemove && app && !app->Resizing())
+		{
+			RECT rc;
+			GetClientRect(hwnd, &rc);
+			app->OnWindowSizeChanged(rc.right - rc.left, rc.bottom - rc.top);
 		}
 		break;
 	case WM_GETMINMAXINFO:
@@ -158,16 +214,46 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 	}
 	case WM_ENTERSIZEMOVE:
 		s_in_sizemove = true;
+		if (app)
+		{
+			app->AppPaused() = true;
+			app->Resizing() = true;
+			app->Timer().Stop();
+		}
 		break;
 	case WM_EXITSIZEMOVE:
 		s_in_sizemove = false;
 		if (app)
 		{
+			app->AppPaused() = false;
+			app->Resizing() = false;
+			app->Timer().Start();
 			RECT rc;
 			GetClientRect(hwnd, &rc);
 			app->OnWindowSizeChanged(rc.right - rc.left, rc.bottom - rc.top);
 		}
 		break;
+	// WM_ACTIVATE is sent when the window is activated or deactivated. We pause the game when the window is deactivated and unpause it when it becomes active.
+	case WM_ACTIVATE:
+		if (LOWORD(wParam) == WA_INACTIVE)
+		{
+			if (app)
+			{
+				app->AppPaused() = true;
+				app->Timer().Stop();
+			}
+		}
+		else
+		{
+			if (app)
+			{
+				app->AppPaused() = false;
+				app->Timer().Start();
+			}
+		}
+		return 0;
+
+
 	case WM_ACTIVATEAPP:
 		if (app)
 		{
@@ -282,6 +368,7 @@ bool BaseApp::initBaseApp(const WindowSystemCreateInfo& createInfo)
 
 	m_hInstance = GetModuleHandle(nullptr);
 	m_isFullscreen = createInfo.fullscreen;
+	m_title = createInfo.title;
 
 	// Register class
 	WNDCLASSEX wndClass{};
@@ -325,7 +412,7 @@ bool BaseApp::initBaseApp(const WindowSystemCreateInfo& createInfo)
 
 	AdjustWindowRectEx(&windowRect, dwStyle, FALSE, dwExStyle);
 
-	m_hwnd = CreateWindowEx(0, ClassName, createInfo.title, dwStyle | WS_CLIPSIBLINGS | WS_CLIPCHILDREN,
+	m_hwnd = CreateWindowEx(0, ClassName, m_title.c_str(), dwStyle | WS_CLIPSIBLINGS | WS_CLIPCHILDREN,
 		0, 0, windowRect.right - windowRect.left, windowRect.bottom - windowRect.top,
 		nullptr, nullptr, m_hInstance, m_baseAppPrivate);
 
@@ -350,6 +437,8 @@ bool BaseApp::initBaseApp(const WindowSystemCreateInfo& createInfo)
 	GetClientRect(m_hwnd, &windowRect);
 	m_frameWidth = windowRect.right - windowRect.left;
 	m_frameHeight = windowRect.bottom - windowRect.top;
+
+	m_timer.Reset();
 
 	return true;
 }
@@ -379,11 +468,24 @@ bool BaseApp::peekMessage()
 		DispatchMessage(&m_msg);
 		if (m_msg.message == WM_QUIT)
 			Exit();
+
+		return false;
 	}
 	else
-		return false;
+	{
+		m_timer.Tick();
 
-	return true;
+		if (!m_paused)
+		{
+			calculateFrameStats();
+			return true;
+		}
+		else
+		{
+			Sleep(100);
+			return false;
+		}
+	}
 }
 //-----------------------------------------------------------------------------
 void BaseApp::sizeChanged(uint32_t width, uint32_t height)
@@ -391,5 +493,35 @@ void BaseApp::sizeChanged(uint32_t width, uint32_t height)
 	m_frameWidth = width;
 	m_frameHeight = height; // TODO: а размеры тут учитывают размер рамок окна?
 	OnWindowSizeChanged();
+}
+//-----------------------------------------------------------------------------
+void BaseApp::calculateFrameStats()
+{
+	// Code computes the average frames per second, and also the  average time it takes to render one frame. These stats are appended to the window caption bar.
+
+	static int frameCnt = 0;
+	static float timeElapsed = 0.0f;
+
+	frameCnt++;
+
+	// Compute averages over one second period.
+	if ((m_timer.TotalTime() - timeElapsed) >= 1.0f)
+	{
+		float fps = (float)frameCnt; // fps = frameCnt / 1
+		float mspf = 1000.0f / fps;
+
+		std::wstring fpsStr = std::to_wstring(fps);
+		std::wstring mspfStr = std::to_wstring(mspf);
+
+		std::wstring windowText = m_title +
+			L"    fps: " + fpsStr +
+			L"   mspf: " + mspfStr;
+
+		SetWindowText(m_hwnd, windowText.c_str());
+
+		// Reset for next average.
+		frameCnt = 0;
+		timeElapsed += 1.0f;
+	}
 }
 //-----------------------------------------------------------------------------

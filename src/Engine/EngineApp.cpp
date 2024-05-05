@@ -39,7 +39,7 @@ bool EngineApp::create()
 //-----------------------------------------------------------------------------
 void EngineApp::tick()
 {
-	if (peekMessage()) return;
+	if (!peekMessage()) return;
 
 	OnFrame();
 }
