@@ -42,3 +42,4 @@
 
 #include "Engine/EngineApp.h"
 #include "Engine/RenderUtils.h"
+#include "Engine/UploadBuffer.h"

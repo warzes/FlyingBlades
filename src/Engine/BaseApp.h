@@ -40,7 +40,7 @@ public:
 	// Window system
 	uint32_t GetFrameWidth() const;
 	uint32_t GetFrameHeight() const;
-	float GetFrameAspect() const;
+	float GetFrameAspectRatio() const;
 	HWND GetHWND() const;
 	HINSTANCE GetHINSTANCE() const;
 

@@ -41,6 +41,7 @@ void EngineApp::tick()
 {
 	if (!peekMessage()) return;
 
+	OnUpdate(0.001f);
 	OnFrame();
 }
 //-----------------------------------------------------------------------------

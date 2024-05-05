@@ -326,7 +326,7 @@ uint32_t BaseApp::GetFrameHeight() const
 	return m_frameHeight;
 }
 //-----------------------------------------------------------------------------
-float BaseApp::GetFrameAspect() const
+float BaseApp::GetFrameAspectRatio() const
 {
 	assert(m_frameHeight > 0);
 	return (float)m_frameWidth / (float)m_frameHeight;

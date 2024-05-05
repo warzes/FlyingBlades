@@ -17,6 +17,9 @@
     <ClCompile Include="GameTimer.cpp">
       <Filter>Core</Filter>
     </ClCompile>
+    <ClCompile Include="MathHelper.cpp">
+      <Filter>Core</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -39,6 +42,12 @@
       <Filter>Render</Filter>
     </ClInclude>
     <ClInclude Include="GameTimer.h">
+      <Filter>Core</Filter>
+    </ClInclude>
+    <ClInclude Include="UploadBuffer.h">
+      <Filter>Render</Filter>
+    </ClInclude>
+    <ClInclude Include="MathHelper.h">
       <Filter>Core</Filter>
     </ClInclude>
   </ItemGroup>

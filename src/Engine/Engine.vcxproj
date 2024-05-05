@@ -96,6 +96,7 @@
     <ClCompile Include="BaseApp.cpp" />
     <ClCompile Include="EngineApp.cpp" />
     <ClCompile Include="GameTimer.cpp" />
+    <ClCompile Include="MathHelper.cpp" />
     <ClCompile Include="RenderApp.cpp" />
     <ClCompile Include="RenderUtils.cpp" />
     <ClCompile Include="stdafx.cpp">
@@ -108,9 +109,11 @@
     <ClInclude Include="BaseApp.h" />
     <ClInclude Include="EngineApp.h" />
     <ClInclude Include="GameTimer.h" />
+    <ClInclude Include="MathHelper.h" />
     <ClInclude Include="RenderApp.h" />
     <ClInclude Include="RenderUtils.h" />
     <ClInclude Include="stdafx.h" />
+    <ClInclude Include="UploadBuffer.h" />
     <ClInclude Include="WindowsInclude.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
