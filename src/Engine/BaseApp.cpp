@@ -8,21 +8,20 @@ constexpr const wchar_t* ClassName = L"EngineApp";
 class BaseAppPrivate final
 {
 public:
-	BaseAppPrivate(BaseApp* app) : m_app(app) { }
+	BaseAppPrivate(BaseApp* app) : app(app) { }
 
 	void OnWindowSizeChanged(uint32_t width, uint32_t height) 
 	{
-		m_app->sizeChanged(width, height);
+		app->sizeChanged(width, height);
 	}
 
-	bool& AppPaused() { return m_app->m_paused; }
-	GameTimer& Timer() { return m_app->m_timer; }
-	bool& Minimized() { return m_app->m_minimized; }
-	bool& Maximized() { return m_app->m_maximized; }
-	bool& Resizing() { return m_app->m_resizing; }
+	bool& AppPaused() { return app->m_paused; }
+	GameTimer& Timer() { return app->m_timer; }
+	bool& Minimized() { return app->m_minimized; }
+	bool& Maximized() { return app->m_maximized; }
+	bool& Resizing() { return app->m_resizing; }
 
-private:
-	BaseApp* m_app;
+	BaseApp* app;
 };
 //-----------------------------------------------------------------------------
 LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
@@ -32,6 +31,8 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 	static bool s_minimized = false;
 	static bool s_fullscreen = false;
 	auto app = reinterpret_cast<BaseAppPrivate*>(GetWindowLongPtr(hwnd, GWLP_USERDATA));
+
+	// TODO: вместо постоянных проверок app is null сделать данную проверку один раз, а дальше их поубирать.
 
 
 	switch (message)
@@ -103,33 +104,29 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT message, WPARAM wParam, LPARAM lParam)
 		//pPlatformApp->OnKeyUp((uint32_t)wParam);
 		break;
 	case WM_LBUTTONDOWN:
-		//pPlatformApp->mouseState.position = glm::vec2((float)LOWORD(lParam), (float)HIWORD(lParam));
-		//pPlatformApp->mouseState.buttons.left = true;
+
+		if (app) app->app->OnMouseDown(wParam, LOWORD(lParam), HIWORD(lParam));
 		break;
 	case WM_RBUTTONDOWN:
-		//pPlatformApp->mouseState.position = glm::vec2((float)LOWORD(lParam), (float)HIWORD(lParam));
-		//pPlatformApp->mouseState.buttons.right = true;
+		if (app) app->app->OnMouseDown(wParam, LOWORD(lParam), HIWORD(lParam));
 		break;
 	case WM_MBUTTONDOWN:
-		//pPlatformApp->mouseState.position = glm::vec2((float)LOWORD(lParam), (float)HIWORD(lParam));
-		//pPlatformApp->mouseState.buttons.middle = true;
+		if (app) app->app->OnMouseDown(wParam, LOWORD(lParam), HIWORD(lParam));
 		break;
 	case WM_LBUTTONUP:
-		//pPlatformApp->mouseState.buttons.left = false;
+		if (app) app->app->OnMouseUp(wParam, LOWORD(lParam), HIWORD(lParam));
 		break;
 	case WM_RBUTTONUP:
-		//pPlatformApp->mouseState.buttons.right = false;
+		if (app) app->app->OnMouseUp(wParam, LOWORD(lParam), HIWORD(lParam));
 		break;
 	case WM_MBUTTONUP:
-		//pPlatformApp->mouseState.buttons.middle = false;
+		if (app) app->app->OnMouseUp(wParam, LOWORD(lParam), HIWORD(lParam));
 		break;
-		//case WM_MOUSEWHEEL:
-		//{
+	case WM_MOUSEWHEEL:
 		//	short wheelDelta = GET_WHEEL_DELTA_WPARAM(wParam);
-		//	break;
-		//}
+		break;
 	case WM_MOUSEMOVE:
-		//pPlatformApp->handleMouseMove(LOWORD(lParam), HIWORD(lParam));
+		if (app) app->app->OnMouseMove(wParam, LOWORD(lParam), HIWORD(lParam));
 		break;
 	case WM_SIZE:
 		if (wParam == SIZE_MINIMIZED)
