@@ -20,11 +20,11 @@
     <ClCompile Include="MathHelper.cpp">
       <Filter>Core</Filter>
     </ClCompile>
-    <ClCompile Include="FrameResource.cpp">
-      <Filter>Render</Filter>
-    </ClCompile>
     <ClCompile Include="GeometryGenerator.cpp">
       <Filter>Render</Filter>
+    </ClCompile>
+    <ClCompile Include="Waves.cpp">
+      <Filter>Other</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -56,11 +56,11 @@
     <ClInclude Include="MathHelper.h">
       <Filter>Core</Filter>
     </ClInclude>
-    <ClInclude Include="FrameResource.h">
-      <Filter>Render</Filter>
-    </ClInclude>
     <ClInclude Include="GeometryGenerator.h">
       <Filter>Render</Filter>
+    </ClInclude>
+    <ClInclude Include="Waves.h">
+      <Filter>Other</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -72,6 +72,9 @@
     </Filter>
     <Filter Include="Render">
       <UniqueIdentifier>{9ceec541-d26f-4dfc-9466-54f5e8539915}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Other">
+      <UniqueIdentifier>{2b186232-9d3c-4a01-8ed1-207716d76d32}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
 </Project>

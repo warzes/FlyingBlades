@@ -6,10 +6,16 @@
     <ClCompile Include="GameApp.cpp">
       <Filter>App</Filter>
     </ClCompile>
+    <ClCompile Include="FrameResource.cpp">
+      <Filter>App</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="GameApp.h">
+      <Filter>App</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameResource.h">
       <Filter>App</Filter>
     </ClInclude>
   </ItemGroup>
