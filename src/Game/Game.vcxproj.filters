@@ -6,11 +6,30 @@
     <ClCompile Include="GameApp.cpp">
       <Filter>App</Filter>
     </ClCompile>
+    <ClCompile Include="FrameResource.cpp">
+      <Filter>Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="Ssao.cpp">
+      <Filter>Framework</Filter>
+    </ClCompile>
+    <ClCompile Include="ShadowMap.cpp">
+      <Filter>Framework</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="GameApp.h">
       <Filter>App</Filter>
+    </ClInclude>
+    <ClInclude Include="FrameResource.h">
+      <Filter>Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="GlobalSettings.h" />
+    <ClInclude Include="Ssao.h">
+      <Filter>Framework</Filter>
+    </ClInclude>
+    <ClInclude Include="ShadowMap.h">
+      <Filter>Framework</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

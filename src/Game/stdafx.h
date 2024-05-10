@@ -44,3 +44,5 @@
 #include "Engine/RenderUtils.h"
 #include "Engine/UploadBuffer.h"
 #include "Engine/GeometryGenerator.h"
+
+#include "GlobalSettings.h"

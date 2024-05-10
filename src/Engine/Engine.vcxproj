@@ -94,6 +94,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="BaseApp.cpp" />
+    <ClCompile Include="DDSTextureLoader.cpp" />
     <ClCompile Include="EngineApp.cpp" />
     <ClCompile Include="GameTimer.cpp" />
     <ClCompile Include="GeometryGenerator.cpp" />
@@ -105,10 +106,12 @@
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Create</PrecompiledHeader>
     </ClCompile>
     <ClCompile Include="Waves.cpp" />
+    <ClCompile Include="WAVFileReader.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Base.h" />
     <ClInclude Include="BaseApp.h" />
+    <ClInclude Include="DDSTextureLoader.h" />
     <ClInclude Include="EngineApp.h" />
     <ClInclude Include="GameTimer.h" />
     <ClInclude Include="GeometryGenerator.h" />
@@ -118,6 +121,7 @@
     <ClInclude Include="stdafx.h" />
     <ClInclude Include="UploadBuffer.h" />
     <ClInclude Include="Waves.h" />
+    <ClInclude Include="WAVFileReader.h" />
     <ClInclude Include="WindowsInclude.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

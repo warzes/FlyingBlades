@@ -26,6 +26,12 @@
     <ClCompile Include="Waves.cpp">
       <Filter>Other</Filter>
     </ClCompile>
+    <ClCompile Include="DDSTextureLoader.cpp">
+      <Filter>Render</Filter>
+    </ClCompile>
+    <ClCompile Include="WAVFileReader.cpp">
+      <Filter>Other</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="stdafx.h" />
@@ -60,6 +66,12 @@
       <Filter>Render</Filter>
     </ClInclude>
     <ClInclude Include="Waves.h">
+      <Filter>Other</Filter>
+    </ClInclude>
+    <ClInclude Include="DDSTextureLoader.h">
+      <Filter>Render</Filter>
+    </ClInclude>
+    <ClInclude Include="WAVFileReader.h">
       <Filter>Other</Filter>
     </ClInclude>
   </ItemGroup>
